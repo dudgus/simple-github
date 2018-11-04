@@ -1,15 +1,7 @@
 package com.androidhuman.example.simplegithub.ui.search
 
-import com.androidhuman.example.simplegithub.R
-import com.androidhuman.example.simplegithub.api.GithubApi
-import com.androidhuman.example.simplegithub.api.GithubApiProvider
-import com.androidhuman.example.simplegithub.api.model.GithubRepo
-import com.androidhuman.example.simplegithub.api.model.RepoSearchResponse
-import com.androidhuman.example.simplegithub.ui.repo.RepositoryActivity
-
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -20,18 +12,18 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.TextView
-
+import com.androidhuman.example.simplegithub.R
+import com.androidhuman.example.simplegithub.api.GithubApi
+import com.androidhuman.example.simplegithub.api.GithubApiProvider
+import com.androidhuman.example.simplegithub.api.model.GithubRepo
+import com.androidhuman.example.simplegithub.api.model.RepoSearchResponse
+import com.androidhuman.example.simplegithub.ui.repo.RepositoryActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity(), SearchAdapter.ItemClickListener {
-
-    internal lateinit var rvList: RecyclerView
-
-    internal lateinit var progress: ProgressBar
-
-    internal lateinit var tvMessage: TextView
 
     internal lateinit var menuSearch: MenuItem
 
@@ -47,14 +39,11 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.ItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        rvList = findViewById(R.id.rvActivitySearchList)
-        progress = findViewById(R.id.pbActivitySearch)
-        tvMessage = findViewById(R.id.tvActivitySearchMessage)
-
         adapter = SearchAdapter()
         adapter.setItemClickListener(this)
-        rvList.layoutManager = LinearLayoutManager(this)
-        rvList.adapter = adapter
+
+        rvActivitySearchList.layoutManager = LinearLayoutManager(this)
+        rvActivitySearchList.adapter = adapter
 
         api = GithubApiProvider.provideGithubApi(this)
     }
@@ -151,20 +140,20 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.ItemClickListener {
     }
 
     private fun showProgress() {
-        progress.visibility = View.VISIBLE
+        pbActivitySearch.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-        progress.visibility = View.GONE
+        pbActivitySearch.visibility = View.GONE
     }
 
     private fun showError(message: String?) {
-        tvMessage.text = message ?: "Unexpected error."
-        tvMessage.visibility = View.VISIBLE
+        tvActivitySearchMessage.text = message ?: "Unexpected error."
+        tvActivitySearchMessage.visibility = View.VISIBLE
     }
 
     private fun hideError() {
-        tvMessage.text = ""
-        tvMessage.visibility = View.GONE
+        tvActivitySearchMessage.text = ""
+        tvActivitySearchMessage.visibility = View.GONE
     }
 }

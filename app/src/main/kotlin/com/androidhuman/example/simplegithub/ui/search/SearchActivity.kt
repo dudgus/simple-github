@@ -1,6 +1,5 @@
 package com.androidhuman.example.simplegithub.ui.search
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -10,13 +9,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.androidhuman.example.simplegithub.R
-import com.androidhuman.example.simplegithub.api.GithubApi
 import com.androidhuman.example.simplegithub.api.model.GithubRepo
 import com.androidhuman.example.simplegithub.api.model.RepoSearchResponse
-import com.androidhuman.example.simplegithub.api.provideAuthApi
 import com.androidhuman.example.simplegithub.api.provideGithubApi
 import com.androidhuman.example.simplegithub.ui.repo.RepositoryActivity
 import kotlinx.android.synthetic.main.activity_search.*
+import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,11 +77,10 @@ class SearchActivity : AppCompatActivity(), SearchAdapter.ItemClickListener {
     }
 
     override fun onItemClick(repository: GithubRepo) {
-        val intent = Intent(this, RepositoryActivity::class.java).apply {
-            putExtra(RepositoryActivity.KEY_USER_LOGIN, repository.owner.login)
-            putExtra(RepositoryActivity.KEY_REPO_NAME, repository.name)
-        }
-        startActivity(intent)
+        startActivity<RepositoryActivity>(
+                RepositoryActivity.KEY_USER_LOGIN to repository.owner.login,
+                RepositoryActivity.KEY_REPO_NAME to repository.name
+        )
     }
 
     override fun onStop() {

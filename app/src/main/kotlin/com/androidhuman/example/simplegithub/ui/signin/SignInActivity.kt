@@ -24,15 +24,15 @@ import retrofit2.Response
 
 class SignInActivity : AppCompatActivity() {
 
-    internal var btnStart: Button
+    internal lateinit var btnStart: Button
 
-    internal var progress: ProgressBar
+    internal lateinit var progress: ProgressBar
 
-    internal var api: AuthApi
+    internal lateinit var api: AuthApi
 
-    internal var authTokenProvider: AuthTokenProvider
+    internal lateinit var authTokenProvider: AuthTokenProvider
 
-    internal var accessTokenCall: Call<GithubAccessToken>
+    internal lateinit var accessTokenCall: Call<GithubAccessToken>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

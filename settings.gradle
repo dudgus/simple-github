@@ -1,1 +1,1 @@
-include ':simple-github'
+include ':app'

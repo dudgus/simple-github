@@ -14,4 +14,3 @@ operator fun AutoClearedDisposable.plusAssign(disposable: Disposable) {
     this.add(disposable)
 }
 
-operator fun Lifecycle.plusAssign(observer: LifecycleObserver) = this.addObserver(observer)

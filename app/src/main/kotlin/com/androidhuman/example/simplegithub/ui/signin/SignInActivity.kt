@@ -11,6 +11,7 @@ import com.androidhuman.example.simplegithub.R
 import com.androidhuman.example.simplegithub.api.provideAuthApi
 import com.androidhuman.example.simplegithub.data.AuthTokenProvider
 import com.androidhuman.example.simplegithub.extensions.plusAssign
+import com.androidhuman.example.simplegithub.rx.AutoClearedDisposable
 import com.androidhuman.example.simplegithub.ui.main.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -26,11 +27,13 @@ class SignInActivity : AppCompatActivity() {
 
     internal val authTokenProvider by lazy { AuthTokenProvider(this) }
 
-    internal val disposables = CompositeDisposable()
+    internal val disposables = AutoClearedDisposable(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+
+        lifecycle += disposables
 
         btnActivitySignInStart.setOnClickListener {
             val authUri = Uri.Builder().scheme("https").authority("github.com")
@@ -59,13 +62,6 @@ class SignInActivity : AppCompatActivity() {
         val code = uri.getQueryParameter("code") ?: throw IllegalStateException("No code exists")
 
         getAccessToken(code)
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        // activity가 화면에서 사라지는 시점에 api 호출 객체가 있다면 api 요청 취소
-        disposables.clear()
     }
 
     private fun getAccessToken(code: String) {
